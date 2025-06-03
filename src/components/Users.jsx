@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router';
 import './user.css';
 
 function Users() {
@@ -28,15 +29,22 @@ function Users() {
       <h1>Users Information</h1>
       <div className="users-container">
         {users.map(user => (
-          <div key={user.id} className="user-card">
-            <h2>{user.name}</h2>
-            <p>
-              <strong>Username:</strong> {user.username}
-            </p>
-            <p>
-              <strong>Email:</strong> {user.email}
-            </p>
-          </div>
+          <Link
+            key={user.id}
+            to={`/users/${user.id}`}
+            className="user-card"
+            style={{ textDecoration: 'none', color: 'inherit' }}
+          >
+            <div>
+              <h2>{user.name}</h2>
+              <p>
+                <strong>Username:</strong> {user.username}
+              </p>
+              <p>
+                <strong>Email:</strong> {user.email}
+              </p>
+            </div>
+          </Link>
         ))}
       </div>
     </div>
