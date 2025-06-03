@@ -4,17 +4,3 @@
   padding: 2rem;
   text-align: center;
 }
-
-button {
-  padding: 20px;
-  margin: 20px;
-  background-color: green;
-  border: none;
-  border-radius: 10px;
-  font-size: 2rem;
-  cursor: pointer;
-}
-
-h1 {
-  font-size: 6rem;
-}
