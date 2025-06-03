@@ -1,83 +1,42 @@
-ser Management Mini-App
-A lightweight React application for browsing and viewing user details from JSONPlaceholder API.
+# 🚀 User Management Mini-App
 
-Features
-User List View
+A sleek, responsive React application for browsing and viewing user details from the [JSONPlaceholder](https://jsonplaceholder.typicode.com/) API.
 
-Displays all users in a responsive grid layout
+---
 
-Clean card design with hover effects
+## ✨ Features
 
-Key information at a glance (name, username, email)
+### 📋 User List View
 
-User Detail View
+✅ **Responsive grid layout** – Adapts to any screen size
+✅ **Interactive cards** – Subtle hover effects for better UX
+✅ **Essential info** – Name, username, and email at a glance
 
-Comprehensive profile display
+### 👤 User Detail View
 
-Organized sections for personal info, address, and company details
+✅ **Complete profile** – All user data in an organized layout
+✅ **Sectioned content** – Personal info, address, and company details
+✅ **Consistent styling** – Matches the list view for seamless navigation
 
-Responsive design that matches the list view styling
+---
 
-Technical Implementation
-Core Technologies
-React 18 with functional components
+## ⚙️ Technical Implementation
 
-React Router v6 for navigation
+### 🛠 Core Stack
 
-Axios for API requests
+| Technology       | Purpose                         |
+| ---------------- | ------------------------------- |
+| **React 18**     | Component-based UI              |
+| **React Router** | Smooth navigation between views |
+| **Axios**        | Clean API requests              |
+| **CSS Modules**  | Scoped, maintainable styling    |
 
-CSS modules for styling
+### 🧩 Key Components
 
-Key Components
-Users.js: Displays the list of users in card format
-
-UserDetails.js: Shows complete profile information for a single user
-
-Custom error handling and loading states
-
-Responsive design that works on mobile and desktop
-
-Setup Instructions
-Clone the repository
-
-Install dependencies:
-
-bash
-npm install
-Run the development server:
-
-bash
-npm start
-API Usage
-The app uses JSONPlaceholder's free mock API:
-
-User list: https://jsonplaceholder.typicode.com/users
-
-Single user: https://jsonplaceholder.typicode.com/users/{id}
-
-Styling Approach
-Consistent card-based design across views
-
-Modern UI with subtle shadows and hover effects
-
-Responsive grid layout for the user list
-
-Clean typography and spacing
-
-Error Handling
-Loading states for API requests
-
-Error boundaries for component failures
-
-User-friendly error messages
-
-Future Improvements
-Add search/filter functionality
-
-Implement pagination for large datasets
-
-Add user edit capabilities
-
-Dark mode support
-
-This mini-app demonstrates clean React patterns, effective API integration, and responsive design principles in a compact package.
+```mermaid
+graph TD;
+    A[App] --> B[Users List];
+    A --> C[User Details];
+    B --> D[User Card];
+    C --> E[Profile Sections];
+```
