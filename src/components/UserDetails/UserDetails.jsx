@@ -14,35 +14,47 @@ export function UserDetails() {
   const [error, setError] = useState(null);
 
   const handleBackClick = () => {
-    navigate('/')
-  }
+    navigate('/');
+  };
 
   useEffect(() => {
     if (id) {
       getUser(id)
-        .then((response) => {
+        .then(response => {
           setUser(response.data);
         })
-        .catch((err) => {
+        .catch(err => {
           setError(err.message || 'Failed to fetch user data');
         })
         .finally(() => {
           setLoading(false);
-        })
+        });
     }
   }, [id]);
 
   if (loading) {
-    return <Loader text='Loading user data...' />
+    return <Loader text="Loading user data..." />;
   }
 
   if (error) {
-    return <Error error={error} buttonText='Return to Users List' onClick={handleBackClick} hasButton />
+    return (
+      <Error
+        error={error}
+        buttonText="Return to Users List"
+        onClick={handleBackClick}
+        hasButton
+      />
+    );
   }
 
   if (!user) {
     return (
-      <Error error="User not found" buttonText='Return to Users List' onClick={handleBackClick} hasButton />
+      <Error
+        error="User not found"
+        buttonText="Return to Users List"
+        onClick={handleBackClick}
+        hasButton
+      />
     );
   }
 
@@ -83,9 +95,7 @@ export function UserDetails() {
           <strong>BS:</strong> {user.company.bs}
         </p>
 
-        <Button onClick={handleBackClick}>
-          Back to Users List
-        </Button>
+        <Button onClick={handleBackClick}>Back to Users List</Button>
       </div>
     </>
   );

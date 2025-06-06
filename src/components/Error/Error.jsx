@@ -1,5 +1,5 @@
-import { Button } from '../Button/Button'
-import styles from './Error.module.css'
+import { Button } from '../Button/Button';
+import styles from './Error.module.css';
 
 export const Error = ({ error, hasButton, buttonText, onClick }) => {
   return (
@@ -7,5 +7,5 @@ export const Error = ({ error, hasButton, buttonText, onClick }) => {
       <p>Error: {error}</p>
       {hasButton && <Button onClick={onClick}>{buttonText}</Button>}
     </div>
-  )
-}
+  );
+};
