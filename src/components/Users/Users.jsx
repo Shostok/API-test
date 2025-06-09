@@ -28,7 +28,7 @@ export function Users() {
       <h1>Users Information</h1>
       <div className={styles.usersContainer}>
         {showList && users.map(user => <UserCard {...user} key={user.id} />)}
-        {loading && <Loader text="Loading..." />}
+        {loading && <Loader text="Loading  ..." />}
         {error && <Error error={error} hasButton={false} />}
       </div>
     </>
