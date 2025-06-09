@@ -1,64 +1,67 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router';
-import './user.css';
+import { useNavigate, useParams } from 'react-router';
+import { getUser } from '../../api/userApi';
+import { Button } from '../Button/Button';
+import { Error } from '../Error/Error';
+import { Loader } from '../Loader/Loader';
+import styles from './UserDetails.module.css';
 
-function UserDetails() {
+export function UserDetails() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await axios.get(
-          `https://jsonplaceholder.typicode.com/users/${id}`,
-        );
-        if (!response.data) {
-          throw new Error('User data is empty');
-        }
-        setUser(response.data);
-      } catch (err) {
-        setError(err.message || 'Failed to fetch user data');
-      } finally {
-        setLoading(false);
-      }
-    };
+  const handleBackClick = () => {
+    navigate('/');
+  };
 
-    fetchUser();
+  useEffect(() => {
+    if (id) {
+      getUser(id)
+        .then(response => {
+          setUser(response.data);
+        })
+        .catch(err => {
+          setError(err.message || 'Failed to fetch user data');
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
   }, [id]);
 
   if (loading) {
-    return <div className="loading">Loading user data...</div>;
+    return <Loader text="Loading user data..." />;
   }
 
   if (error) {
     return (
-      <div className="error">
-        <p>Error: {error}</p>
-        <Link to="/" className="back-link">
-          Return to Users List
-        </Link>
-      </div>
+      <Error
+        error={error}
+        buttonText="Return to Users List"
+        onClick={handleBackClick}
+        hasButton
+      />
     );
   }
 
   if (!user) {
     return (
-      <div className="error">
-        <p>User not found</p>
-        <Link to="/" className="back-link">
-          Return to Users List
-        </Link>
-      </div>
+      <Error
+        error="User not found"
+        buttonText="Return to Users List"
+        onClick={handleBackClick}
+        hasButton
+      />
     );
   }
 
   return (
-    <div className="App">
+    <>
       <h1>User Details</h1>
-      <div className="user-details">
+      <div className={styles.userDetails}>
         <h2>{user.name}</h2>
         <p>
           <strong>Username:</strong> {user.username}
@@ -92,12 +95,8 @@ function UserDetails() {
           <strong>BS:</strong> {user.company.bs}
         </p>
 
-        <Link to="/" className="back-link">
-          Back to Users List
-        </Link>
+        <Button onClick={handleBackClick}>Back to Users List</Button>
       </div>
-    </div>
+    </>
   );
 }
-
-export default UserDetails;
