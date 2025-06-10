@@ -14,7 +14,7 @@ export function PostDetails() {
   const [error, setError] = useState(null);
 
   const handleBackClick = () => {
-    navigate('/');
+    navigate('/posts');
   };
 
   useEffect(() => {
@@ -60,7 +60,7 @@ export function PostDetails() {
 
   return (
     <>
-      <h1>Posts Details</h1>
+      <h1>Post Details</h1>
       <div className={styles.postsDetails}>
         <h2>
           Title: <br /> {post.title}
@@ -68,7 +68,7 @@ export function PostDetails() {
 
         <p>{post.body}</p>
 
-        <Button onClick={handleBackClick}>Back to Users List</Button>
+        <Button onClick={handleBackClick}>Back to posts List</Button>
       </div>
     </>
   );
