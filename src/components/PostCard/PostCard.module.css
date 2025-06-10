@@ -1,25 +1,8 @@
 .postCard {
-  background: #f9f9f9;
+  background: #f8f9fa;
   border-radius: 8px;
   padding: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.postCard h2 {
-  margin-top: 0;
-  color: #333;
-}
-
-.postCard p {
-  margin: 8px 0;
-  color: #555;
-}
-
-.postCard strong {
-  color: #333;
-}
-
-.postCard {
   display: block;
   padding: 15px;
   margin: 10px;
@@ -36,4 +19,10 @@
 
 .postCard h2 {
   margin-top: 0;
+  color: #2c3e50;
+}
+
+.postCard p {
+  margin: 8px 0;
+  color: #34495e;
 }

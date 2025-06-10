@@ -4,10 +4,18 @@
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 8px;
-  background-color: #f9f9f9;
+  background-color: #f8f9fa;
 }
 
 .postsDetails h2 {
   margin-top: 20px;
-  color: #333;
+  color: #2c3e50;
+}
+
+p {
+  color: #34495e;
+}
+
+h1 {
+  color: #2c3e50;
 }
