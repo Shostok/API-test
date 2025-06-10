@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { getPosts } from '../../api/userApi';
+import { getPosts } from '../../api/postApi';
+import { Error } from '../Error/Error';
 import { Loader } from '../Loader/Loader';
-import { PostCard } from '../UserCard/UserCard';
+import { PostCard } from '../PostCard/PostCard';
 import styles from './Posts.module.css';
 
 export function Posts() {

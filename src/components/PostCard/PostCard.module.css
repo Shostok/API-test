@@ -1,0 +1,39 @@
+.postCard {
+  background: #f9f9f9;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.postCard h2 {
+  margin-top: 0;
+  color: #333;
+}
+
+.postCard p {
+  margin: 8px 0;
+  color: #555;
+}
+
+.postCard strong {
+  color: #333;
+}
+
+.postCard {
+  display: block;
+  padding: 15px;
+  margin: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.postCard:hover {
+  background-color: #f5f5f5;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.postCard h2 {
+  margin-top: 0;
+}

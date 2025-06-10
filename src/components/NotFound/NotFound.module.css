@@ -1,0 +1,15 @@
+.NotFoun {
+  text-align: 'center';
+  padding: '2rem';
+}
+
+.NotFoundLink {
+  color: #007bff;
+  text-decoration: none;
+  transition: color 0.5s ease;
+}
+
+.NotFoundLink:hover {
+  color: black;
+  text-decoration: underline;
+}
