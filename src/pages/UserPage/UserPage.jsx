@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
-import { getUser } from '../../api/userApi';
-import { Button } from '../Button/Button';
-import { Error } from '../Error/Error';
-import { Loader } from '../Loader/Loader';
-import styles from './UserDetails.module.css';
 
-export function UserDetails() {
+import styles from './UserPage.module.css';
+import { Loader } from '../../components/Loader/Loader';
+import { Error } from '../../components/Error/Error';
+import { Button } from '../../components/Button/Button';
+import { getUser } from '../../api/userApi';
+
+export function UserPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [user, setUser] = useState(null);

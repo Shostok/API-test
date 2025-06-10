@@ -1,3 +1,5 @@
+/* Лучше называть файл под компонент, а какие классы внутри это уже не важно, у тебя тут надо называть Layout.module.css не критично, но учити */
+
 header {
   background-color: #007bff;
   display: flex;
@@ -13,6 +15,7 @@ header {
   text-decoration: none;
   transition: color 0.5s ease;
 }
+
 .Link:hover {
   color: black;
   text-decoration: underline;

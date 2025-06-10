@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
-import { getPost } from '../../api/postApi';
-import { Button } from '../Button/Button';
-import { Error } from '../Error/Error';
-import { Loader } from '../Loader/Loader';
-import styles from './PostDetail.module.css';
 
-export function PostDetails() {
+import styles from './PostPage.module.css';
+import { getPost } from '../../api/postApi';
+import { Loader } from '../../components/Loader/Loader';
+import { Error } from '../../components/Error/Error';
+import { Button } from '../../components/Button/Button';
+
+export function PostPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [post, setPost] = useState(null);
