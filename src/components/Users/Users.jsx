@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getUsers } from '../../api/userApi';
 import { Loader } from '../Loader/Loader';
-import { SearchBar } from '../SearchInput/SearchBar';
+import { SearchBar } from '../SearchBar/SearchBar';
 import { UserCard } from '../UserCard/UserCard';
 import styles from './Users.module.css';
 
