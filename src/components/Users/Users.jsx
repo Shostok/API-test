@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getUsers } from '../../api/userApi';
 import { Loader } from '../Loader/Loader';
+import { SearchBar } from '../SearchInput/SearchBar';
 import { UserCard } from '../UserCard/UserCard';
 import styles from './Users.module.css';
 
@@ -26,6 +27,7 @@ export function Users() {
   return (
     <>
       <h1>Users Information</h1>
+      <SearchBar placeholder={'Type here'} />
       <div className={styles.usersContainer}>
         {showList && users.map(user => <UserCard {...user} key={user.id} />)}
         {loading && <Loader text="Loading  ..." />}
