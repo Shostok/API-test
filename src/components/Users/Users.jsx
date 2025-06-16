@@ -27,7 +27,7 @@ export function Users() {
   return (
     <>
       <h1>Users Information</h1>
-      <SearchBar placeholder={'Type here'} />
+      <SearchBar placeholder={'Type here'} users={users} />
       <div className={styles.usersContainer}>
         {showList && users.map(user => <UserCard {...user} key={user.id} />)}
         {loading && <Loader text="Loading  ..." />}
