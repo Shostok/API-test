@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button } from '../Button/Button';
 
-export const SearchBar = ({ onChange, placeholder }) => {
+export const SearchBar = ({ onChange, placeholder, users }) => {
   const [value, setValue] = useState('');
 
   const filteredUsers = users.filter(user => {
@@ -25,13 +25,13 @@ export const SearchBar = ({ onChange, placeholder }) => {
         <Button type="submit">Поиск</Button>
       </form>
 
-      <ul>
+      <div>
         {filteredUsers.map(user => (
-          <li key={user.id}>
+          <div key={user.id}>
             {user.name} ({user.username})
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };
