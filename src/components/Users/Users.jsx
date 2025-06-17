@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { getUsers } from '../../api/userApi';
 import { Error } from '../Error/Error';
 import { Loader } from '../Loader/Loader';
-import { SearchBar } from '../SearchBarPost/SearchBar';
+import { SearchBar } from '../SearchBar/SearchBar';
 import { UserCard } from '../UserCard/UserCard';
 
 import styles from './Users.module.css';
