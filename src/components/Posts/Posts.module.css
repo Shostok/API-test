@@ -5,6 +5,13 @@
   margin-top: 20px;
 }
 
+.emptyList {
+  margin-top: 70px;
+  text-align: center;
+  font-size: 18px;
+  color: #666;
+}
+
 @media (max-width: 600px) {
   .postContainer {
     grid-template-columns: 1fr;

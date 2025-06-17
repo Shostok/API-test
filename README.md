@@ -1,42 +1,9 @@
-# 🚀 User Management Mini-App
+1. Не хватает кнопки по ТЗ рядом с input, нужно чтобы поиск выполнялся и клавишей "Enter" и кнопкой, чтобы можно было искать мышью
 
-A sleek, responsive React application for browsing and viewing user details from the [JSONPlaceholder](https://jsonplaceholder.typicode.com/) API.
+2. У кнопки добавлен `margin-top: 20px;` это плохая практика, сейчас попробовал использовать кнопку в другом месте и это ломает верстку. Оставлю чтобы ты посмотрел. Это нужно изменить и отступы добавлять либо динамически через пропсы, либо добавлять в другом месте, где используется кнопка.
 
----
+3. Поиск работает не совсем верно. Нужно чтобы поиск производился не по вводу, а по нажатию
 
-## ✨ Features
+4. Реализация фильтрации: то что ты сделал это ок. Но в идеале вынести это все в отдельный модуль и лучше хук. И конечно не хватает мемоизации useMemo. Также в алгоритме не хватает свойства `.trim()` оно удаляет все пробелы, чтобы поиск `Erv in` искал `ervin`, а не выдавал ничего.
 
-### 📋 User List View
-
-✅ **Responsive grid layout** – Adapts to any screen size
-✅ **Interactive cards** – Subtle hover effects for better UX
-✅ **Essential info** – Name, username, and email at a glance
-
-### 👤 User Detail View
-
-✅ **Complete profile** – All user data in an organized layout
-✅ **Sectioned content** – Personal info, address, and company details
-✅ **Consistent styling** – Matches the list view for seamless navigation
-
----
-
-## ⚙️ Technical Implementation
-
-### 🛠 Core Stack
-
-| Technology       | Purpose                         |
-| ---------------- | ------------------------------- |
-| **React 18**     | Component-based UI              |
-| **React Router** | Smooth navigation between views |
-| **Axios**        | Clean API requests              |
-| **CSS Modules**  | Scoped, maintainable styling    |
-
-### 🧩 Key Components
-
-```mermaid
-graph TD;
-    A[App] --> B[Users List];
-    A --> C[User Details];
-    B --> D[User Card];
-    C --> E[Profile Sections];
-```
+5. No posts found у тебя не работал, потому что находился внутри `postContainer` и по grid сетке был слева. Для таких моментов надод выносить блок из контейнера для списка. Пример оставил в постах.

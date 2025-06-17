@@ -53,10 +53,10 @@ export function Posts() {
         placeholder="Search"
         searchType="posts"
       />
+      {showEmpty && <p className={styles.emptyList}>No posts found</p>}
       <div className={styles.postContainer}>
         {showList &&
           filteredPosts.map(post => <PostCard {...post} key={post.id} />)}
-        {showEmpty && <p>No posts found</p>}
         {loading && <Loader text="Loading..." />}
         {error && <Error error={error} hasButton={false} />}
       </div>

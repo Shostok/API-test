@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import styles from './SearchBar.module.css';
+
 export const SearchBar = ({
   onSearch,
   placeholder = 'Search...',
