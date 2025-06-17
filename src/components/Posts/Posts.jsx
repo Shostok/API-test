@@ -6,6 +6,7 @@ import { Loader } from '../Loader/Loader';
 import { PostCard } from '../PostCard/PostCard';
 import { SearchBar } from '../SearchBar/SearchBar';
 import { useSearch } from '../../hooks/useSearch';
+import { POSTS_SEARCH_TYPE } from '../../constant/search';
 
 import styles from './Posts.module.css';
 
@@ -14,7 +15,7 @@ export function Posts() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   // достаем наши приколы из хука
-  const { items, search } = useSearch(posts, 'posts');
+  const { items, search } = useSearch(posts, POSTS_SEARCH_TYPE);
 
   useEffect(() => {
     getPosts()
