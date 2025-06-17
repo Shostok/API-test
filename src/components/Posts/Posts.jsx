@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router';
 
 import { getPosts } from '../../api/postApi';
 import { Error } from '../Error/Error';
 import { Loader } from '../Loader/Loader';
 import { PostCard } from '../PostCard/PostCard';
-import { SearchBarPost } from '../SearchBar/Search';
+import { SearchBar } from '../SearchBarPost/SearchBar';
 
 import styles from './Posts.module.css';
 
@@ -14,8 +13,6 @@ export function Posts() {
   const [filteredPosts, setFilteredPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [searchParams] = useSearchParams();
-  const postQuery = searchParams.get('post') || '';
 
   useEffect(() => {
     getPosts()
@@ -31,29 +28,35 @@ export function Posts() {
       });
   }, []);
 
-  useEffect(() => {
-    if (postQuery) {
-      const filtered = posts.filter(post =>
-        post.title.toLowerCase().includes(postQuery.toLowerCase()),
-      );
-      setFilteredPosts(filtered);
-    } else {
+  const handleSearch = term => {
+    if (!term.trim()) {
       setFilteredPosts(posts);
+      return;
     }
-  }, [postQuery, posts]);
+
+    const filtered = posts.filter(
+      post =>
+        post.title.toLowerCase().includes(term.toLowerCase()) ||
+        post.body.toLowerCase().includes(term.toLowerCase()),
+    );
+    setFilteredPosts(filtered);
+  };
 
   const showList = !loading && !error && filteredPosts.length !== 0;
-  const showEmpty =
-    !loading && !error && filteredPosts.length === 0 && postQuery;
+  const showEmpty = !loading && !error && filteredPosts.length === 0;
 
   return (
     <>
       <h1>Posts Information</h1>
-      <SearchBarPost />
+      <SearchBar
+        onSearch={handleSearch}
+        placeholder="Search"
+        searchType="posts"
+      />
       <div className={styles.postContainer}>
         {showList &&
           filteredPosts.map(post => <PostCard {...post} key={post.id} />)}
-        {showEmpty && <p>No posts found matching your search</p>}
+        {showEmpty && <p>No posts found</p>}
         {loading && <Loader text="Loading..." />}
         {error && <Error error={error} hasButton={false} />}
       </div>
