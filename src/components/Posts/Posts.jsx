@@ -5,20 +5,21 @@ import { Error } from '../Error/Error';
 import { Loader } from '../Loader/Loader';
 import { PostCard } from '../PostCard/PostCard';
 import { SearchBar } from '../SearchBar/SearchBar';
+import { useSearch } from '../../hooks/useSearch';
 
 import styles from './Posts.module.css';
 
 export function Posts() {
   const [posts, setPosts] = useState([]);
-  const [filteredPosts, setFilteredPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  // достаем наши приколы из хука
+  const { items, search } = useSearch(posts, 'posts');
 
   useEffect(() => {
     getPosts()
       .then(({ data }) => {
         setPosts(data);
-        setFilteredPosts(data);
       })
       .catch(({ message }) => {
         setError(message);
@@ -29,21 +30,13 @@ export function Posts() {
   }, []);
 
   const handleSearch = term => {
-    if (!term.trim()) {
-      setFilteredPosts(posts);
-      return;
-    }
-
-    const filtered = posts.filter(
-      post =>
-        post.title.toLowerCase().includes(term.toLowerCase()) ||
-        post.body.toLowerCase().includes(term.toLowerCase()),
-    );
-    setFilteredPosts(filtered);
+    // используем функцию для поиска из хука
+    search(term);
   };
 
-  const showList = !loading && !error && filteredPosts.length !== 0;
-  const showEmpty = !loading && !error && filteredPosts.length === 0;
+  // везде используем отфилььтрованный массив
+  const showList = !loading && !error && items.length !== 0;
+  const showEmpty = !loading && !error && items.length === 0;
 
   return (
     <>
@@ -55,8 +48,7 @@ export function Posts() {
       />
       {showEmpty && <p className={styles.emptyList}>No posts found</p>}
       <div className={styles.postContainer}>
-        {showList &&
-          filteredPosts.map(post => <PostCard {...post} key={post.id} />)}
+        {showList && items.map(post => <PostCard {...post} key={post.id} />)}
         {loading && <Loader text="Loading..." />}
         {error && <Error error={error} hasButton={false} />}
       </div>
