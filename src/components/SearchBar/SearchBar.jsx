@@ -28,9 +28,6 @@ export const SearchBar = ({
         placeholder={`${placeholder} ${searchType}...`}
         className={styles.searchInput}
       />
-      <button type="submit" className={styles.searchButton}>
-        Search
-      </button>
     </form>
   );
 };

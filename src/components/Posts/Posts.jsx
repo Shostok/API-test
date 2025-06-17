@@ -4,7 +4,7 @@ import { getPosts } from '../../api/postApi';
 import { Error } from '../Error/Error';
 import { Loader } from '../Loader/Loader';
 import { PostCard } from '../PostCard/PostCard';
-import { SearchBar } from '../SearchBarPost/SearchBar';
+import { SearchBar } from '../SearchBar/SearchBar';
 
 import styles from './Posts.module.css';
 
