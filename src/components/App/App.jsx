@@ -1,10 +1,12 @@
 import { BrowserRouter, Route, Routes } from 'react-router';
+
 import { Layout } from '../Layout/Layout';
 import { NotFound } from '../NotFound/NotFound';
 import { PostDetails } from '../PostDetails/PostDetail';
 import { Posts } from '../Posts/Posts';
 import { UserDetails } from '../UserDetails/UserDetails';
 import { Users } from '../Users/Users';
+
 import styles from './App.module.css';
 
 export function App() {

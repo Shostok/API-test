@@ -1,4 +1,5 @@
 import { Button } from '../Button/Button';
+
 import styles from './Error.module.css';
 
 export const Error = ({ error, hasButton, buttonText, onClick }) => {

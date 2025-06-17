@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
+
 import { getPost } from '../../api/postApi';
 import { Button } from '../Button/Button';
 import { Error } from '../Error/Error';
 import { Loader } from '../Loader/Loader';
+
 import styles from './PostDetail.module.css';
 
 export function PostDetails() {

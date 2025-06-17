@@ -1,4 +1,5 @@
 import { Link } from 'react-router';
+
 import styles from './UserCard.module.css';
 
 export const UserCard = ({ id, name, username, email }) => {

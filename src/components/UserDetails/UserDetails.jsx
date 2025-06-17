@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
+
 import { getUser } from '../../api/userApi';
 import { Button } from '../Button/Button';
 import { Error } from '../Error/Error';
 import { Loader } from '../Loader/Loader';
+
 import styles from './UserDetails.module.css';
 
 export function UserDetails() {
