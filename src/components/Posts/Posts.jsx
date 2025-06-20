@@ -56,10 +56,10 @@ export function Posts() {
       <div className={styles.postContainer}>
         {showList &&
           filteredPosts.map(post => <PostCard {...post} key={post.id} />)}
-        {showEmpty && <p>No posts found</p>}
-        {loading && <Loader text="Loading..." />}
         {error && <Error error={error} hasButton={false} />}
       </div>
+      {loading && <Loader text="Loading..." />}
+      {showEmpty && <p>No posts found</p>}
     </>
   );
 }

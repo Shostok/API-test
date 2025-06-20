@@ -57,10 +57,10 @@ export function Users() {
       <div className={styles.usersContainer}>
         {showList &&
           filteredUsers.map(user => <UserCard {...user} key={user.id} />)}
-        {showEmpty && <p>No users found</p>}
-        {loading && <Loader text="Loading..." />}
         {error && <Error error={error} hasButton={false} />}
       </div>
+      {loading && <Loader text="Loading..." />}
+      {showEmpty && <p>No users found</p>}
     </>
   );
 }

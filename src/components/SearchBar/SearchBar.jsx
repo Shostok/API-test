@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import { Button } from '../Button/Button';
+
 import styles from './SearchBar.module.css';
 export const SearchBar = ({
   onSearch,
@@ -11,12 +13,11 @@ export const SearchBar = ({
   const handleChange = e => {
     const value = e.target.value;
     setSearchTerm(value);
-    onSearch(value);
   };
 
   const handleSubmit = e => {
     e.preventDefault();
-    onSearch(searchTerm);
+    onSearch(searchTerm.trim());
   };
 
   return (
@@ -28,6 +29,7 @@ export const SearchBar = ({
         placeholder={`${placeholder} ${searchType}...`}
         className={styles.searchInput}
       />
+      <Button>Search</Button>
     </form>
   );
 };
