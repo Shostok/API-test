@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Button } from '../Button/Button';
 
 import styles from './SearchBar.module.css';
+
 export const SearchBar = ({
   onSearch,
   placeholder = 'Search...',
@@ -17,7 +18,7 @@ export const SearchBar = ({
 
   const handleSubmit = e => {
     e.preventDefault();
-    onSearch(searchTerm.trim());
+    onSearch(searchTerm);
   };
 
   return (
