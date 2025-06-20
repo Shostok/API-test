@@ -1,5 +1,0 @@
- {/* {filteredUsers.map(user => (
-          <div key={user.id}>
-            {user.name} ({user.username})
-          </div>
-        ))} */}
