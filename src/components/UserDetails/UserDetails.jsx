@@ -93,7 +93,7 @@ export function UserDetails() {
         <p>
           <strong>Catchphrase:</strong> {user.company.catchPhrase}
         </p>
-        <p>
+        <p style={{ marginBottom: '20px' }}>
           <strong>BS:</strong> {user.company.bs}
         </p>
 

@@ -68,7 +68,7 @@ export function PostDetails() {
           Title: <br /> {post.title}
         </h2>
 
-        <p>{post.body}</p>
+        <p style={{ marginBottom: '20px' }}>{post.body}</p>
 
         <Button onClick={handleBackClick}>Back to posts List</Button>
       </div>
