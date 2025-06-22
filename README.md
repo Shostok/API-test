@@ -1,5 +1,5 @@
 # API Test App: Users & Posts Explorer
-[![Ask DeepWiki](https://devin.ai/assets/askdeepwiki.png)](https://deepwiki.com/Shostok/API-test/tree/task-3)
+
 
 This repository hosts a React application built with Vite, designed to interact with the [JSONPlaceholder](https://jsonplaceholder.typicode.com/) API. It allows users to browse, search, and view detailed information about users and posts.
 
