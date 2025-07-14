@@ -1,18 +1,16 @@
 import PropTypes from 'prop-types';
-import { useNavigate, useSearchParams } from 'react-router';
+import { useSearchParams } from 'react-router';
 
 import styles from './Pagination.module.css';
 
 export function Pagination({ currentPage, totalPages }) {
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
+  // первый параметр не нужен, поэтому пропускаем вот так
+  const [, setSearchParams] = useSearchParams();
 
   const handlePageChange = newPage => {
     if (newPage < 1 || newPage > totalPages) return;
 
-    const newSearchParams = new URLSearchParams(searchParams);
-    newSearchParams.set('page', newPage);
-    navigate(`?${newSearchParams.toString()}`, { replace: true });
+    setSearchParams({ page: newPage });
   };
 
   if (totalPages <= 1) return null;

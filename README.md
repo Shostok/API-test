@@ -1,138 +1,77 @@
-# API Test App: Users & Posts Explorer
-[![Ask DeepWiki](https://devin.ai/assets/askdeepwiki.png)](https://deepwiki.com/Shostok/API-test/tree/task-3)
+1. Старый код
 
-This repository hosts a React application built with Vite, designed to interact with the [JSONPlaceholder](https://jsonplaceholder.typicode.com/) API. It allows users to browse, search, and view detailed information about users and posts.
+У тебя в проекте используется старый вид поиска. Добавь хук useSearch с нужным параметром на страницы где есть поиск. И убери весь лишний код
 
-## 🌟 Features
+```js
+const handleSearch = (term, usersData = users) => {
+  if (!term.trim()) {
+    setFilteredUsers(usersData);
+    setTotalPages(Math.ceil(usersData.length / itemsPerPage));
+    return;
+  }
 
-*   **👤 User Management & 📝 Post Management:**
-    *   Display lists of users and posts fetched from the API.
-    *   View detailed information for each user (including address and company details) and post.
-*   **🔍 Powerful Search Functionality:**
-    *   Search users by name, username, or email.
-    *   Search posts by title or body content.
-    *   Dynamic filtering of results as you type (Debounced for performance if `useSearch` hook implies it, though current code is direct).
-*   **📱 Responsive Design:**
-    *   Interactive cards for concise display of user and post information.
-    *   Grid-based layout that adapts to different screen sizes for optimal viewing on desktop and mobile.
-*   **Seamless Navigation:**
-    *   Client-side routing implemented with React Router for a smooth single-page application experience.
-    *   Clear navigation links in the header to switch between Users and Posts sections.
-    *   "Back" buttons for easy return from detail views to lists.
-*   **✨ User Experience Enhancements:**
-    *   Loading indicators while fetching data.
-    *   Clear error messages for API issues or when data is not found.
-    *   A "Not Found" page for invalid routes.
-*   **🛠️ Modern Tech Stack:**
-    *   Built with React 19 and Vite.
-    *   Asynchronous API calls managed with Axios.
-    *   Scoped styling using CSS Modules to prevent class name conflicts.
-    *   Code quality maintained with ESLint and Prettier.
-
-## 🛠️ Tech Stack
-
-*   **Core:** React 19, JavaScript (ES6+)
-*   **Build Tool:** Vite
-*   **Routing:** React Router v7
-*   **HTTP Client:** Axios
-*   **Styling:** CSS Modules, Global CSS
-*   **Linting/Formatting:** ESLint, Prettier
-*   **API Source:** [JSONPlaceholder API](https://jsonplaceholder.typicode.com/)
-
-## 📁 Project Structure
-
-The project is organized into a standard Vite React application structure:
-
-```
-shostok-api-test/
-├── public/                   # Static assets (e.g., site.webmanifest)
-├── src/
-│   ├── api/                  # API service functions (postApi.js, userApi.js)
-│   ├── components/           # React components (UI and feature-specific)
-│   │   ├── App/              # Main App component, routing setup
-│   │   ├── Button/           # Reusable button component
-│   │   ├── Card/             # Generic card wrapper (used by UserCard/PostCard indirectly)
-│   │   ├── Error/            # Error display component
-│   │   ├── Layout/           # Main application layout with header navigation
-│   │   ├── Loader/           # Loading spinner component
-│   │   ├── NotFound/         # 404 Not Found page component
-│   │   ├── PostCard/         # Component for displaying a single post in a list
-│   │   ├── PostDetails/      # Component for displaying detailed post information
-│   │   ├── Posts/            # Page component for listing posts
-│   │   ├── SearchBar/        # Reusable search input component
-│   │   ├── UserCard/         # Component for displaying a single user in a list
-│   │   ├── UserDetails/      # Component for displaying detailed user information
-│   │   └── Users/            # Page component for listing users
-│   ├── constant/             # Application-wide constants (api.js, search.js)
-│   ├── hooks/                # Custom React hooks (e.g., useSearch.js)
-│   ├── utils/                # Utility functions (e.g., stringToSearch.js)
-│   ├── index.css             # Global styles
-│   └── main.jsx              # Application entry point
-├── .eslintrc.mjs             # ESLint configuration
-├── .prettierrc               # Prettier configuration
-├── index.html                # Main HTML template
-├── package.json              # Project metadata and dependencies
-└── vite.config.js            # Vite configuration
+  const filtered = usersData.filter(
+    user =>
+      user.name.toLowerCase().includes(term.toLowerCase()) ||
+      user.username.toLowerCase().includes(term.toLowerCase()) ||
+      user.email.toLowerCase().includes(term.toLowerCase()),
+  );
+  setFilteredUsers(filtered);
+  setTotalPages(Math.ceil(filtered.length / itemsPerPage));
+};
 ```
 
-## 🚀 Getting Started
+2. Пагинация ок, но не то чуть-чуть. Нам нужен именно постраничный вывод (1,2,3,5) и тд. Но с ограничением, чтобы 1000 страниц в ряд не шла. Тебе нужно убрать в Paginator вот это:
 
-Follow these instructions to get a copy of the project up and running on your local machine for development and testing purposes.
+```jsx
+<span className={styles.pageInfo}>
+  Страница {currentPage} из {totalPages}
+</span>
+```
 
-### Prerequisites
+и добавить кнопки для каждой страницы как написано в задании:
 
-*   Node.js (v18 or higher recommended)
-*   npm (v9 or higher, typically comes with Node.js) or yarn
+`Кнопки с самими страницами, при этом активная страница должна быть понятна пользователю.`
 
-### Installation
+3. Со страницы Users можно убрать пагинацию, она не нужна там же всего 10 пользаков
 
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/shostok/api-test.git
-    ```
-2.  **Navigate to the project directory:**
-    ```bash
-    cd api-test
-    ```
-3.  **Install dependencies:**
-    Using npm:
-    ```bash
-    npm install
-    ```
-    Or using yarn:
-    ```bash
-    yarn install
-    ```
+4. useSearchParams
 
-### Available Scripts
+Так не делаем, потому что в useSearchParams есть механизм для управления этими параметрами без костылей. Добавил в пагинатор, погляди
 
-This project uses npm scripts for common tasks:
+```js
+const handlePageChange = newPage => {
+  if (newPage < 1 || newPage > totalPages) return;
 
-*   **`npm run dev`** or **`yarn dev`**
-    Runs the app in development mode. Open [http://localhost:5173](http://localhost:5173) (or the port specified in your terminal) to view it in the browser. The page will reload if you make edits.
+  const newSearchParams = new URLSearchParams(searchParams);
+  newSearchParams.set('page', newPage);
+  navigate(`?${newSearchParams.toString()}`, { replace: true });
+};
+```
 
-*   **`npm run dev-custom`** or **`yarn dev-custom`**
-    Runs the app in development mode on host `0.0.0.0` and port `3000`.
+5. Лишнее условие:
 
-*   **`npm run build`** or **`yarn build`**
-    Builds the app for production to the `dist` folder. It correctly bundles React in production mode and optimizes the build for the best performance.
+у тебя внутри Pagination есть уже такое условие, тут нужно его убрать в Posts
 
-*   **`npm run lint`** or **`yarn lint`**
-    Lints the project files using ESLint according to the configured rules.
+```jsx
+{
+  totalPages > 1 && (
+    <Pagination currentPage={currentPage} totalPages={totalPages} />
+  );
+}
+```
 
-*   **`npm run lint:fix`** or **`yarn lint:fix`**
-    Lints the project files and attempts to automatically fix any ESLint violations.
+6. Чтобы добавить пагинацию на страницу слишком много кода надо писать. Надо это как-то унифицировать и вынести в отдельные модули.
 
-*   **`npm run format`** or **`yarn format`**
-    Formats the codebase using Prettier according to the rules in `.prettierrc`.
+Вот это 100% надо, чтобы руками такое не писать каждый раз:
 
-*   **`npm run preview`** or **`yarn preview`**
-    Serves the production build from the `dist` folder locally. This is useful for checking the production build before deployment.
+```js
+const getPaginatedUsers = () => {
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  return filteredPosts.slice(startIndex, startIndex + itemsPerPage);
+};
+```
 
-### Running the Application
+Либо по максимуму всё что связанно с пагинацией засунуть в сам компонент пагинации. А где надо просто его импортировать и пропсами передать все что требуется для пагинации.
 
-1.  Start the development server:
-    ```bash
-    npm run dev
-    ```
-2.  Open your browser and navigate to the URL provided in the terminal (usually `http://localhost:5173`).
+7. Пункт 5 про данные пользователя в посте из задачи не выполнен
