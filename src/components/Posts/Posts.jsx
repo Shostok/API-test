@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router';
 
 import { getPosts } from '../../api/postApi';
+import { POSTS_SEARCH_TYPE } from '../../constant/search';
+import { useSearch } from '../../hooks/useSearch';
 import { Error } from '../Error/Error';
 import { Loader } from '../Loader/Loader';
 import { Pagination } from '../Pagination/Pagination';
@@ -13,13 +15,25 @@ import styles from './Posts.module.css';
 export function Posts() {
   const [searchParams] = useSearchParams();
   const [posts, setPosts] = useState([]);
-  const [filteredPosts, setFilteredPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [totalPages, setTotalPages] = useState(1);
 
   const currentPage = parseInt(searchParams.get('page')) || 1;
   const itemsPerPage = 10;
+
+  const { items: filteredPosts, search: setSearchTerm } = useSearch(
+    posts,
+    POSTS_SEARCH_TYPE,
+  );
+
+  const totalPages = useMemo(() => {
+    return Math.ceil(filteredPosts.length / itemsPerPage);
+  }, [filteredPosts, itemsPerPage]);
+
+  const paginatedPosts = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return filteredPosts.slice(startIndex, startIndex + itemsPerPage);
+  }, [filteredPosts, currentPage, itemsPerPage]);
 
   useEffect(() => {
     setLoading(true);
@@ -28,11 +42,8 @@ export function Posts() {
         setPosts(data);
         const searchTerm = searchParams.get('search');
         if (searchTerm) {
-          handleSearch(searchTerm, data);
-        } else {
-          setFilteredPosts(data);
+          setSearchTerm(searchTerm);
         }
-        setTotalPages(Math.ceil(data.length / itemsPerPage));
       })
       .catch(({ message }) => {
         setError(message);
@@ -40,38 +51,16 @@ export function Posts() {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, [searchParams, setSearchTerm]);
 
-  const handleSearch = (term, postsData = posts) => {
-    if (!term.trim()) {
-      setFilteredPosts(postsData);
-      setTotalPages(Math.ceil(postsData.length / itemsPerPage));
-      return;
-    }
-
-    const filtered = postsData.filter(
-      post =>
-        post.title.toLowerCase().includes(term.toLowerCase()) ||
-        post.body.toLowerCase().includes(term.toLowerCase()),
-    );
-    setFilteredPosts(filtered);
-    setTotalPages(Math.ceil(filtered.length / itemsPerPage));
-  };
-
-  const getPaginatedPosts = () => {
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    return filteredPosts.slice(startIndex, startIndex + itemsPerPage);
-  };
-
-  const showList = !loading && !error && filteredPosts.length !== 0;
+  const showList = !loading && !error && filteredPosts.length > 0;
   const showEmpty = !loading && !error && filteredPosts.length === 0;
-  const paginatedPosts = getPaginatedPosts();
 
   return (
     <>
       <h1>Posts Information</h1>
       <SearchBar
-        onSearch={handleSearch}
+        onSearch={setSearchTerm}
         placeholder="Search"
         searchType="posts"
       />
