@@ -35,6 +35,13 @@ export function Posts() {
     return filteredPosts.slice(startIndex, startIndex + itemsPerPage);
   }, [filteredPosts, currentPage, itemsPerPage]);
 
+  const handlePageChange = newPage => {
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set('page', newPage);
+    window.history.pushState(null, '', `?${newSearchParams.toString()}`);
+    window.location.reload();
+  };
+
   useEffect(() => {
     setLoading(true);
     getPosts()
@@ -73,7 +80,16 @@ export function Posts() {
       {showEmpty && <p>No posts found</p>}
 
       {totalPages > 1 && (
-        <Pagination currentPage={currentPage} totalPages={totalPages} />
+        <div className={styles.paginationWrapper}>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
+          <div className={styles.pageInfo}>
+            Страница {currentPage} из {totalPages}
+          </div>
+        </div>
       )}
     </>
   );
