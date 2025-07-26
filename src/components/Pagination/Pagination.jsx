@@ -1,8 +1,11 @@
 import styles from './Pagination.module.css';
 
-export const Pagination = ({ currentPage, totalPages, onPageChange }) => {
-  if (totalPages <= 1) return null;
-
+export function Pagination({
+  currentPage,
+  totalPages,
+  onPageChange,
+  showPageInfo = true,
+}) {
   const getVisiblePages = () => {
     const visiblePages = [];
     const maxVisible = 5;
@@ -30,12 +33,18 @@ export const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   return (
     <div className={styles.container}>
       <div className={styles.pagination}>
-        <button onClick={() => onPageChange(1)} disabled={currentPage === 1}>
+        <button
+          onClick={() => onPageChange(1)}
+          disabled={currentPage === 1}
+          aria-label="First page"
+        >
           &laquo;&laquo;
         </button>
+
         <button
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
+          aria-label="Previous page"
         >
           &laquo;
         </button>
@@ -57,16 +66,25 @@ export const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         <button
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
+          aria-label="Next page"
         >
           &raquo;
         </button>
+
         <button
           onClick={() => onPageChange(totalPages)}
           disabled={currentPage === totalPages}
+          aria-label="Last page"
         >
           &raquo;&raquo;
         </button>
       </div>
+
+      {showPageInfo && (
+        <div className={styles.pageInfo}>
+          Страница {currentPage} из {totalPages}
+        </div>
+      )}
     </div>
   );
-};
+}

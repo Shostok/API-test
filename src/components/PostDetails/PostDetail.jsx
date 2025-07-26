@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 
 import { getPost } from '../../api/postApi';
+import { getUser } from '../../api/userApi';
 import { Button } from '../Button/Button';
 import { Error } from '../Error/Error';
 import { Loader } from '../Loader/Loader';
@@ -12,6 +13,7 @@ export function PostDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [post, setPost] = useState(null);
+  const [author, setAuthor] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -21,12 +23,19 @@ export function PostDetails() {
 
   useEffect(() => {
     if (id) {
+      setLoading(true);
+
       getPost(id)
-        .then(response => {
-          setPost(response.data);
+        .then(postResponse => {
+          setPost(postResponse.data);
+
+          return getUser(postResponse.data.userId);
+        })
+        .then(userResponse => {
+          setAuthor(userResponse.data);
         })
         .catch(err => {
-          setError(err.message || 'Failed to fetch user data');
+          setError(err.message || 'Failed to fetch data');
         })
         .finally(() => {
           setLoading(false);
@@ -67,6 +76,12 @@ export function PostDetails() {
         <h2>
           Title: <br /> {post.title}
         </h2>
+
+        {author && (
+          <p className={styles.author}>
+            Author: {author.name} ({author.username})
+          </p>
+        )}
 
         <p style={{ marginBottom: '20px' }}>{post.body}</p>
 

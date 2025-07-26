@@ -1,12 +1,36 @@
-.postContainer {
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.postsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
-  margin-top: 20px;
+  margin: 20px 0;
 }
 
-@media (max-width: 600px) {
-  .postContainer {
-    grid-template-columns: 1fr;
-  }
+.postCardWrapper {
+  cursor: pointer;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+
+.postCardWrapper:hover {
+  transform: translateY(-2px);
+}
+
+.noResults {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #666;
+  margin: 40px 0;
+}
+
+.paginationContainer {
+  display: flex;
+  justify-content: center;
+  margin: 40px 0 20px;
 }

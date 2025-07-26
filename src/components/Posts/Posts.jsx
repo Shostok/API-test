@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useSearchParams } from 'react-router';
+import { useNavigate, useSearchParams } from 'react-router';
 
 import { getPosts } from '../../api/postApi';
+import { getUsers } from '../../api/userApi';
 import { POSTS_SEARCH_TYPE } from '../../constant/search';
 import { useSearch } from '../../hooks/useSearch';
 import { Error } from '../Error/Error';
@@ -14,18 +15,32 @@ import styles from './Posts.module.css';
 
 export function Posts() {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const currentPage = parseInt(searchParams.get('page')) || 1;
   const itemsPerPage = 10;
 
+  const postsWithAuthors = useMemo(() => {
+    return posts.map(post => {
+      const author = users.find(user => user.id === post.userId);
+      console.log('Author data:', author); // Добавьте лог для проверки
+      return {
+        ...post,
+        author: author
+          ? `${author.name} (${author.username})`
+          : 'Unknown author',
+      };
+    });
+  }, [posts, users]);
+
   const { items: filteredPosts, search: setSearchTerm } = useSearch(
-    posts,
+    postsWithAuthors,
     POSTS_SEARCH_TYPE,
   );
-
   const totalPages = useMemo(() => {
     return Math.ceil(filteredPosts.length / itemsPerPage);
   }, [filteredPosts, itemsPerPage]);
@@ -35,62 +50,78 @@ export function Posts() {
     return filteredPosts.slice(startIndex, startIndex + itemsPerPage);
   }, [filteredPosts, currentPage, itemsPerPage]);
 
-  const handlePageChange = newPage => {
-    const newSearchParams = new URLSearchParams(searchParams);
-    newSearchParams.set('page', newPage);
-    window.history.pushState(null, '', `?${newSearchParams.toString()}`);
-    window.location.reload();
+  const handlePostClick = postId => {
+    navigate(`/posts/${postId}`);
   };
 
   useEffect(() => {
     setLoading(true);
-    getPosts()
-      .then(({ data }) => {
-        setPosts(data);
-        const searchTerm = searchParams.get('search');
-        if (searchTerm) {
-          setSearchTerm(searchTerm);
-        }
+
+    Promise.all([getPosts(), getUsers()])
+      .then(([postsData, usersData]) => {
+        console.log('Users data:', usersData.data); // Проверьте данные
+        setPosts(postsData.data);
+        setUsers(usersData.data);
       })
-      .catch(({ message }) => {
-        setError(message);
+      .catch(error => {
+        console.error('Error loading data:', error);
+        setError(error.message);
       })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [searchParams, setSearchTerm]);
+      .finally(() => setLoading(false));
+  }, []);
 
   const showList = !loading && !error && filteredPosts.length > 0;
   const showEmpty = !loading && !error && filteredPosts.length === 0;
 
   return (
-    <>
+    <div className={styles.container}>
       <h1>Posts Information</h1>
+
       <SearchBar
         onSearch={setSearchTerm}
         placeholder="Search"
         searchType="posts"
       />
-      <div className={styles.postContainer}>
+
+      <div className={styles.postsGrid}>
         {showList &&
-          paginatedPosts.map(post => <PostCard {...post} key={post.id} />)}
-        {error && <Error error={error} hasButton={false} />}
+          paginatedPosts.map(post => (
+            <div
+              key={post.id}
+              className={styles.postCardWrapper}
+              onClick={() => handlePostClick(post.id)}
+              onKeyDown={e => e.key === 'Enter' && handlePostClick(post.id)}
+              role="button"
+              tabIndex={0}
+              aria-label={`View post: ${post.title}`}
+            >
+              <PostCard
+                key={post.id}
+                title={post.title}
+                body={post.body}
+                author={post.author}
+              />
+            </div>
+          ))}
       </div>
+
       {loading && <Loader text="Loading posts..." />}
-      {showEmpty && <p>No posts found</p>}
+      {error && <Error error={error} hasButton={false} />}
+      {showEmpty && <p className={styles.noResults}>No posts found</p>}
 
       {totalPages > 1 && (
-        <div className={styles.paginationWrapper}>
+        <div className={styles.paginationContainer}>
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
-            onPageChange={handlePageChange}
+            onPageChange={page => {
+              const params = new URLSearchParams(searchParams);
+              params.set('page', page);
+              navigate(`?${params.toString()}`);
+            }}
           />
-          <div className={styles.pageInfo}>
-            Страница {currentPage} из {totalPages}
-          </div>
         </div>
       )}
-    </>
+    </div>
   );
 }
