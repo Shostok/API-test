@@ -27,7 +27,6 @@ export function Posts() {
   const postsWithAuthors = useMemo(() => {
     return posts.map(post => {
       const author = users.find(user => user.id === post.userId);
-      console.log('Author data:', author); // Добавьте лог для проверки
       return {
         ...post,
         author: author
@@ -59,7 +58,6 @@ export function Posts() {
 
     Promise.all([getPosts(), getUsers()])
       .then(([postsData, usersData]) => {
-        console.log('Users data:', usersData.data); // Проверьте данные
         setPosts(postsData.data);
         setUsers(usersData.data);
       })
