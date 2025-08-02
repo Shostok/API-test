@@ -11,6 +11,7 @@ import styles from './PostDetail.module.css';
 
 export function PostDetails() {
   const { id } = useParams();
+  // console.log('Post ID', id);
   const navigate = useNavigate();
   const [post, setPost] = useState(null);
   const [author, setAuthor] = useState(null);
@@ -22,25 +23,34 @@ export function PostDetails() {
   };
 
   useEffect(() => {
-    if (id) {
-      setLoading(true);
+    if (!id) return;
 
-      getPost(id)
-        .then(postResponse => {
-          setPost(postResponse.data);
+    setLoading(true);
+    setError(null);
 
-          return getUser(postResponse.data.userId);
-        })
-        .then(userResponse => {
-          setAuthor(userResponse.data);
-        })
-        .catch(err => {
-          setError(err.message || 'Failed to fetch data');
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    }
+    getPost(id)
+      .then(postResponse => {
+        if (!postResponse.data.userId) {
+          throw new Error('Post has no author ID');
+        }
+
+        return Promise.all([
+          Promise.resolve(postResponse.data),
+          getUser(postResponse.data.userId),
+        ]);
+      })
+      .then(([postData, userResponse]) => {
+        setPost(postData);
+        setAuthor(userResponse.data || null);
+      })
+      .catch(err => {
+        setError(err.message || 'Failed to fetch data');
+        setPost(null);
+        setAuthor(null);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, [id]);
 
   if (loading) {

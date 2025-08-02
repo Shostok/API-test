@@ -1,11 +1,18 @@
+import { Link } from 'react-router';
+
 import styles from './PostCard.module.css';
 
-export function PostCard({ title, body, author }) {
+export const PostCard = ({ id, title, body, author }) => {
   return (
-    <div className={styles.card}>
-      <h3 className={styles.title}>{title}</h3>
-      {author && <p className={styles.author}>Author: {author}</p>}
-      <p className={styles.body}>{body}</p>
-    </div>
+    <Link
+      to={`/posts/${id}`}
+      style={{ textDecoration: 'none', color: 'inherit' }}
+    >
+      <div className={styles.card}>
+        <h2 className={styles.title}>{title}</h2>
+        {author && <p className={styles.author}>Author: {author}</p>}
+        <p>{body || 'No content'}</p>
+      </div>
+    </Link>
   );
-}
+};
