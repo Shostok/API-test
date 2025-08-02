@@ -49,10 +49,6 @@ export function Posts() {
     return filteredPosts.slice(startIndex, startIndex + itemsPerPage);
   }, [filteredPosts, currentPage, itemsPerPage]);
 
-  const handlePostClick = postId => {
-    navigate(`/posts/${postId}`);
-  };
-
   useEffect(() => {
     setLoading(true);
 
@@ -87,8 +83,6 @@ export function Posts() {
             <div
               key={post.id}
               className={styles.postCardWrapper}
-              onClick={() => handlePostClick(post.id)}
-              onKeyDown={e => e.key === 'Enter' && handlePostClick(post.id)}
               role="button"
               tabIndex={0}
               aria-label={`View post: ${post.title}`}
@@ -97,6 +91,7 @@ export function Posts() {
                 key={post.id}
                 title={post.title}
                 body={post.body}
+                id={post.id}
                 author={post.author}
               />
             </div>
