@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router';
 
 import { Layout } from '../Layout/Layout';
 import { NotFound } from '../NotFound/NotFound';
@@ -16,10 +16,11 @@ export function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Users />} />
-            <Route path="/posts" element={<Posts />} />
-            <Route path="/posts/:id" element={<PostDetails />} />
-            <Route path="/users/:id" element={<UserDetails />} />
-            <Route path="*" element={<NotFound />} />
+            <Route path="posts" element={<Posts />} />
+            <Route path="posts/:id" element={<PostDetails />} />
+            <Route path="users/:id" element={<UserDetails />} />
+            <Route path="404" element={<NotFound />} />
+            <Route path="*" element={<Navigate to="/404" replace />} />
           </Route>
         </Routes>
       </BrowserRouter>

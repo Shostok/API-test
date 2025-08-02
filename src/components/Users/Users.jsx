@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 
 import { getUsers } from '../../api/userApi';
+import { USERS_SEARCH_TYPE } from '../../constant/search';
+import { useSearch } from '../../hooks/useSearch';
 import { Error } from '../Error/Error';
 import { Loader } from '../Loader/Loader';
 import { SearchBar } from '../SearchBar/SearchBar';
@@ -10,15 +12,18 @@ import styles from './Users.module.css';
 
 export function Users() {
   const [users, setUsers] = useState([]);
-  const [filteredUsers, setFilteredUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const { items: filteredUsers, search: setSearchTerm } = useSearch(
+    users,
+    USERS_SEARCH_TYPE,
+  );
 
   useEffect(() => {
     getUsers()
       .then(({ data }) => {
         setUsers(data);
-        setFilteredUsers(data);
       })
       .catch(({ message }) => {
         setError(message);
@@ -28,21 +33,6 @@ export function Users() {
       });
   }, []);
 
-  const handleSearch = term => {
-    if (!term.trim()) {
-      setFilteredUsers(users);
-      return;
-    }
-
-    const filtered = users.filter(
-      user =>
-        user.name.toLowerCase().includes(term.toLowerCase()) ||
-        user.username.toLowerCase().includes(term.toLowerCase()) ||
-        user.email.toLowerCase().includes(term.toLowerCase()),
-    );
-    setFilteredUsers(filtered);
-  };
-
   const showList = !loading && !error && filteredUsers.length !== 0;
   const showEmpty = !loading && !error && filteredUsers.length === 0;
 
@@ -50,7 +40,7 @@ export function Users() {
     <>
       <h1>Users Information</h1>
       <SearchBar
-        onSearch={handleSearch}
+        onSearch={setSearchTerm}
         placeholder="Search"
         searchType="users"
       />

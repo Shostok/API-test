@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 
 import { getPost } from '../../api/postApi';
+import { getUser } from '../../api/userApi';
 import { Button } from '../Button/Button';
 import { Error } from '../Error/Error';
 import { Loader } from '../Loader/Loader';
@@ -10,8 +11,10 @@ import styles from './PostDetail.module.css';
 
 export function PostDetails() {
   const { id } = useParams();
+  // console.log('Post ID', id);
   const navigate = useNavigate();
   const [post, setPost] = useState(null);
+  const [author, setAuthor] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -20,18 +23,34 @@ export function PostDetails() {
   };
 
   useEffect(() => {
-    if (id) {
-      getPost(id)
-        .then(response => {
-          setPost(response.data);
-        })
-        .catch(err => {
-          setError(err.message || 'Failed to fetch user data');
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    }
+    if (!id) return;
+
+    setLoading(true);
+    setError(null);
+
+    getPost(id)
+      .then(postResponse => {
+        if (!postResponse.data.userId) {
+          throw new Error('Post has no author ID');
+        }
+
+        return Promise.all([
+          Promise.resolve(postResponse.data),
+          getUser(postResponse.data.userId),
+        ]);
+      })
+      .then(([postData, userResponse]) => {
+        setPost(postData);
+        setAuthor(userResponse.data || null);
+      })
+      .catch(err => {
+        setError(err.message || 'Failed to fetch data');
+        setPost(null);
+        setAuthor(null);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, [id]);
 
   if (loading) {
@@ -67,6 +86,12 @@ export function PostDetails() {
         <h2>
           Title: <br /> {post.title}
         </h2>
+
+        {author && (
+          <p className={styles.author}>
+            Author: {author.name} ({author.username})
+          </p>
+        )}
 
         <p style={{ marginBottom: '20px' }}>{post.body}</p>
 

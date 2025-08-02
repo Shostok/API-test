@@ -19,3 +19,9 @@ p {
 h1 {
   color: #2c3e50;
 }
+.author {
+  color: #666;
+  font-size: 0.9em;
+  margin: 10px 0;
+  font-style: italic;
+}
