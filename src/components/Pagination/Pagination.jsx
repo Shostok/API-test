@@ -82,7 +82,7 @@ export function Pagination({
 
       {showPageInfo && (
         <div className={styles.pageInfo}>
-          Страница {currentPage} из {totalPages}
+          Page {currentPage} of {totalPages}
         </div>
       )}
     </div>

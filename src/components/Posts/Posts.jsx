@@ -5,6 +5,7 @@ import { getPosts } from '../../api/postApi';
 import { getUsers } from '../../api/userApi';
 import { POSTS_SEARCH_TYPE } from '../../constant/search';
 import { useSearch } from '../../hooks/useSearch';
+import { Button } from '../Button/Button';
 import { Error } from '../Error/Error';
 import { Loader } from '../Loader/Loader';
 import { Pagination } from '../Pagination/Pagination';
@@ -20,6 +21,10 @@ export function Posts() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const postGenerateClick = () => {
+    navigate('/PostGenerate');
+  };
 
   const currentPage = parseInt(searchParams.get('page')) || 1;
   const itemsPerPage = 10;
@@ -115,6 +120,7 @@ export function Posts() {
           />
         </div>
       )}
+      <Button onClick={postGenerateClick}>Create new post</Button>
     </div>
   );
 }

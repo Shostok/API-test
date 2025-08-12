@@ -11,7 +11,6 @@ import styles from './PostDetail.module.css';
 
 export function PostDetails() {
   const { id } = useParams();
-  // console.log('Post ID', id);
   const navigate = useNavigate();
   const [post, setPost] = useState(null);
   const [author, setAuthor] = useState(null);

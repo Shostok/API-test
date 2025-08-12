@@ -3,6 +3,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router';
 import { Layout } from '../Layout/Layout';
 import { NotFound } from '../NotFound/NotFound';
 import { PostDetails } from '../PostDetails/PostDetail';
+import { PostGenerate } from '../PostGenerate/PostGenerate';
 import { Posts } from '../Posts/Posts';
 import { UserDetails } from '../UserDetails/UserDetails';
 import { Users } from '../Users/Users';
@@ -20,6 +21,7 @@ export function App() {
             <Route path="posts/:id" element={<PostDetails />} />
             <Route path="users/:id" element={<UserDetails />} />
             <Route path="404" element={<NotFound />} />
+            <Route path="postGenerate" element={<PostGenerate />} />
             <Route path="*" element={<Navigate to="/404" replace />} />
           </Route>
         </Routes>
