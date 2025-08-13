@@ -6,8 +6,13 @@ import { API_URL } from '../../constant/api';
 import { Button } from '../Button/Button';
 
 import styles from './PostGenerate.module.css';
+import { usePosts } from '../../contexts/usePosts';
 
 export function PostGenerate({ onPostCreated }) {
+  const { posts, setPosts } = usePosts()
+
+  // console.log(posts, 'посты в PostGenerate')
+
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -36,7 +41,13 @@ export function PostGenerate({ onPostCreated }) {
         createdAt: new Date().toISOString(),
       };
 
-      onPostCreated(newPost);
+
+
+      setPosts((prev) => {
+        console.log([...prev, newPost], 'list')
+
+        return [...prev, newPost]
+      })
       setTitle('');
       setContent('');
     } catch (error) {

@@ -13,11 +13,15 @@ import { PostCard } from '../PostCard/PostCard';
 import { SearchBar } from '../SearchBar/SearchBar';
 
 import styles from './Posts.module.css';
+import { usePosts } from '../../contexts/usePosts';
 
 export function Posts() {
+  const { posts, setPosts, uid } = usePosts()
+
+  console.log(posts, 'posts')
+
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const [posts, setPosts] = useState([]);
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -54,6 +58,7 @@ export function Posts() {
     return filteredPosts.slice(startIndex, startIndex + itemsPerPage);
   }, [filteredPosts, currentPage, itemsPerPage]);
 
+  // перенести в провайдер
   useEffect(() => {
     setLoading(true);
 
